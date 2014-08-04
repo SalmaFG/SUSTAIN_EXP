@@ -28,7 +28,7 @@ data = [[1.0,0.56,0.13,1.0],
 		[13.0,0.69,0.135,0.0],
 		[14.0,0.72,0.135,0.0],
 		[15.0,0.76,0.135,0.0],
-		[16.0,0.56,0.14,0.0],
+		[16.0,0.79,0.135,0.0],
 		[17.0,0.56,0.14,0.0],
 		[18.0,0.59,0.14,0.0],
 		[19.0,0.63,0.14,0.0],
@@ -40,7 +40,7 @@ data = [[1.0,0.56,0.13,1.0],
 		[25.0,0.56,0.145,0.0],
 		[26.0,0.59,0.145,0.0],
 		[27.0,0.63,0.145,0.0],
-		[28.0,0.63,0.145,0.0],
+		[28.0,0.66,0.145,0.0],
 		[29.0,0.69,0.145,0.0],
 		[30.0,0.72,0.145,0.0],
 		[31.0, 0.76,0.145,0.0],
@@ -68,7 +68,7 @@ data = [[1.0,0.56,0.13,1.0],
 		[53.0,0.69,0.16,0.0],
 		[54.0,0.72,0.16,0.0],
 		[55.0,0.76,0.16,2.0],
-		[56.0,0.79,0.165,2.0],
+		[56.0,0.79,0.16,2.0],
 		[57.0,0.56,0.165,0.0],
 		[58.0,0.59,0.165,0.0],
 		[59.0,0.63,0.165,0.0],
@@ -194,6 +194,7 @@ class SUSTAIN:
 		
 			if (max(self.activations) < self.THRESHOLD) or (sum(tmpdist) != 0.0): # (Equation #11 in Psych Review)
 				# create new cluster
+				print "NEW CLUSTER!!!"
 				self.clusters.append(item)
 				self.connections.append(array([0.0]*len(item)*len(item[0])))
 				self.stimulate(item,env)
@@ -283,10 +284,10 @@ def training(model,data):
 				[lambdas, clus, conn] = model.learn(j,env)
 			else:
 				accuracy=0
-			trialdata=["SUSTAIN",phase,i+1,res,accuracy]
+			trialdata=["SUSTAIN",phase,i+1,j[0],res,accuracy]
 			subjectdata.append(trialdata)
 			write_file(directory,subjectdata,',')
-	generalization(model,data)
+	# generalization(model,data)
 
 def generalization(model,data):
 	nitemscorrect = 0
@@ -300,7 +301,7 @@ def generalization(model,data):
 				[lambdas, clus, conn] = model.learn(j,env)
 			else:
 				accuracy=0
-			trialdata=["SUSTAIN",phase,1,res,accuracy]
+			trialdata=["SUSTAIN",phase,1,j[0],res,accuracy]
 			subjectdata.append(trialdata)
 			write_file(directory,subjectdata,',')
 
