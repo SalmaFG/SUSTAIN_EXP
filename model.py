@@ -81,7 +81,6 @@ data = [[1.0,0.56,0.13,1.0],
 env = ['m','k','k','?']
 
 categories=[1.0,2.0]
-numtrainingblocks=4
 
 ##########################################################
 # SUSTAIN Class
@@ -114,9 +113,9 @@ class SUSTAIN:
 	###########################################################
 	def stimulate(self, item, env):
 		itemflat = resize(item,(1,len(item)*len(item[0])))[0]
-		print itemflat
+		# print itemflat
 		self.maxValue = max(itemflat[2:7])
-		print self.maxValue
+		# print self.maxValue
 		self.minValue = min(itemflat[2:7])
 		
 		# this binary mask will block out queried or missing dims from the calcs
@@ -172,6 +171,7 @@ class SUSTAIN:
 	###########################################################
 	def learn(self, item, env):
 		# print self.LAMBDAS
+		accuracy = 0
 		if len(self.clusters) == 0:
 			# create new cluster
 			self.clusters.append(item)
@@ -179,6 +179,7 @@ class SUSTAIN:
 			self.stimulate(item,env)
 			winnerindex = self.activations.index(max(self.activations))
 			self.adjustcluster(winnerindex, item, env)
+			maskclus = [0,0,0,array([0,0])]
 		else:
 			# is most activated cluster in the correct category? (Equation #10 in Psych Review)
 			winnerindex = self.activations.index(max(self.activations))
@@ -191,19 +192,20 @@ class SUSTAIN:
 			maskclus = map(lambda x,y: x*y, self.clusters[winnerindex], mask)
 			# print maskclus
 			tmpdist = map(lambda x,y: sum(abs(x-y))/2.0,maskitem, maskclus)
-		
+			# print tmpdist
 			if (max(self.activations) < self.THRESHOLD) or (sum(tmpdist) != 0.0): # (Equation #11 in Psych Review)
 				# create new cluster
-				print "NEW CLUSTER!!!"
+				# print "NEW CLUSTER!!!"
 				self.clusters.append(item)
 				self.connections.append(array([0.0]*len(item)*len(item[0])))
 				self.stimulate(item,env)
 				winnerindex = self.activations.index(max(self.activations))
 				self.adjustcluster(winnerindex, item, env)
-				
+				accuracy = 0
 			else:
+				accuracy = 1
 				self.adjustcluster(winnerindex, item, env)	
-		return [self.LAMBDAS, self.connections, self.clusters]
+		return [self.LAMBDAS, self.connections, self.clusters, int(floor(maskclus[3][1])), accuracy]
 
 				
 	###########################################################
@@ -275,33 +277,24 @@ def training(model,data):
 		random.shuffle(trainingblock)
 		# print trainingblock
 		for j in trainingblock:
-			# print j 
-			correctcategory=j[3]
+			print j 
+			trialn=int(floor(j[0][1]))
 			[res,prob,outunits,outacts,act,dist] = model.stimulate(j, env)
-			if res == True:
-				nitemscorrect += 1
-				accuracy=1
-				[lambdas, clus, conn] = model.learn(j,env)
-			else:
-				accuracy=0
-			trialdata=["SUSTAIN",phase,i+1,j[0],res,accuracy]
+			[lambdas, clus, conn, response, accuracy] = model.learn(j,env)
+			trialdata=["SUSTAIN",phase,i+1,trialn,response,accuracy]
 			subjectdata.append(trialdata)
 			write_file(directory,subjectdata,',')
-	# generalization(model,data)
+	generalization(model,data)
 
 def generalization(model,data):
 	nitemscorrect = 0
 	phase='generalization'
 	random.shuffle(dataitems)
         for j in dataitems:
+			trialn=int(floor(j[0][1]))
 			[res,prob,outunits,outacts,act,dist] = model.stimulate(j, env)
-			if res == True:
-				nitemscorrect += 1
-				accuracy=1
-				[lambdas, clus, conn] = model.learn(j,env)
-			else:
-				accuracy=0
-			trialdata=["SUSTAIN",phase,1,j[0],res,accuracy]
+			[lambdas, clus, conn, response, accuracy] = model.learn(j,env)
+			trialdata=["SUSTAIN",phase,1,trialn,response,accuracy]
 			subjectdata.append(trialdata)
 			write_file(directory,subjectdata,',')
 
