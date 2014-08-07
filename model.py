@@ -12,6 +12,8 @@ from numpy import array
 from numpy import *
 from sets import *
 import random
+import csv
+from collections import OrderedDict
 
 data = [[1.0,0.56,0.13,1.0],
 		[2.0,0.59,0.13,1.0], 
@@ -251,7 +253,7 @@ class SUSTAIN:
 ###########################################################
 
 subjectdata=[]
-directory=os.getcwd() + '/results/results'
+directory=os.getcwd() + '/results/results.csv'
 dataitems = []
 for i in data:
 	row = []
@@ -300,9 +302,11 @@ def generalization(model,data):
 
 def write_file(filename,data,delim):
 	datafile=open(filename,'w')
+	datafile.write("Model, Phase, Block, Item, Response, Accuracy" + '\n')
 	for i in data:
+		si = ', '.join(str(ie) for ie in i)
 		line='\n'
-		line=str(i)+delim+line
+		line=str(si)+delim+line
 		datafile.write(line)
 	datafile.close()
 
