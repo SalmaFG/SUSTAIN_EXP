@@ -312,7 +312,7 @@ def training(model,data):
             [lambdas, clus, conn, response, accuracy] = model.learn(j,env)
             trialdata=["SUSTAIN",phase,i+1,trialn,response,accuracy]
             subjectdata.append(trialdata)
-            # write_file(directory,subjectdata,',')
+            write_file(directory,subjectdata,',')
     generalization(model,data)
 
 ##########################################################
