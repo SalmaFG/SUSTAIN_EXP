@@ -4,7 +4,6 @@ import tempfile
 from time import sleep
 from fpconst import *
 import string
-import misc
 # from Numeric import *
 # from MLab import *
 import numpy as np
@@ -15,72 +14,70 @@ import random
 
 data = [[1.0,0.56,0.13,1.0],
         [2.0,0.59,0.13,1.0], 
-        [3.0,0.63,0.13,0.0],
-        [4.0,0.66,0.13,0.0],
-        [5.0,0.69,0.13,0.0],
-        [6.0,0.72,0.13,0.0],
-        [7.0,0.76,0.13,0.0],
-        [8.0,0.79,0.13,0.0],
+        [3.0,0.63,0.13,1.0],
+        [4.0,0.66,0.13,1.0],
+        [5.0,0.69,0.13,1.0],
+        [6.0,0.72,0.13,1.0],
+        [7.0,0.76,0.13,1.0],
+        [8.0,0.79,0.13,1.0],
         [9.0,0.56,0.135,1.0],
         [10.0,0.59,0.135,1.0],
-        [11.0,0.63,0.135,0.0],
-        [12.0,0.66,0.135,0.0],
-        [13.0,0.69,0.135,0.0],
-        [14.0,0.72,0.135,0.0],
-        [15.0,0.76,0.135,0.0],
-        [16.0,0.79,0.135,0.0],
-        [17.0,0.56,0.14,0.0],
-        [18.0,0.59,0.14,0.0],
-        [19.0,0.63,0.14,0.0],
-        [20.0,0.66,0.14,0.0],
-        [21.0,0.69,0.14,0.0],
-        [22.0,0.72,0.14,0.0],
-        [23.0,0.76,0.14,0.0],
-        [24.0,0.79,0.14,0.0],
-        [25.0,0.56,0.145,0.0],
-        [26.0,0.59,0.145,0.0],
-        [27.0,0.63,0.145,0.0],
-        [28.0,0.66,0.145,0.0],
-        [29.0,0.69,0.145,0.0],
-        [30.0,0.72,0.145,0.0],
-        [31.0, 0.76,0.145,0.0],
-        [32.0,0.79,0.145,0.0],
-        [33.0,0.56,0.15,0.0],
-        [34.0,0.59,0.15,0.0],
-        [35.0,0.63,0.15,0.0],
-        [36.0,0.66,0.15,0.0],
-        [37.0,0.69,0.15,0.0],
-        [38.0,0.72,0.15,0.0],
-        [39.0,0.76,0.15,0.0],
-        [40.0,0.79,0.15,0.0],
-        [41.0,0.56,0.155,0.0],
-        [42.0,0.59,0.155,0.0],
-        [43.0,0.63,0.155,0.0],
-        [44.0,0.66,0.155,0.0],
-        [45.0,0.69,0.155,0.0],
-        [46.0,0.72,0.155,0.0],
-        [47.0,0.76,0.155,0.0],
-        [48.0,0.79,0.155,0.0],
-        [49.0,0.56,0.16,0.0],
-        [50.0,0.59,0.16,0.0],
-        [51.0,0.63,0.16,0.0],
-        [52.0,0.66,0.16,0.0],
-        [53.0,0.69,0.16,0.0],
-        [54.0,0.72,0.16,0.0],
+        [11.0,0.63,0.135,1.0],
+        [12.0,0.66,0.135,1.0],
+        [13.0,0.69,0.135,1.0],
+        [14.0,0.72,0.135,1.0],
+        [15.0,0.76,0.135,1.0],
+        [16.0,0.79,0.135,2.0],
+        [17.0,0.56,0.14,1.0],
+        [18.0,0.59,0.14,1.0],
+        [19.0,0.63,0.14,1.0],
+        [20.0,0.66,0.14,1.0],
+        [21.0,0.69,0.14,1.0],
+        [22.0,0.72,0.14,1.0],
+        [23.0,0.76,0.14,2.0],
+        [24.0,0.79,0.14,2.0],
+        [25.0,0.56,0.145,1.0],
+        [26.0,0.59,0.145,1.0],
+        [27.0,0.63,0.145,1.0],
+        [28.0,0.66,0.145,1.0],
+        [29.0,0.69,0.145,1.0],
+        [30.0,0.72,0.145,2.0],
+        [31.0, 0.76,0.145,2.0],
+        [32.0,0.79,0.145,2.0],
+        [33.0,0.56,0.15,1.0],
+        [34.0,0.59,0.15,1.0],
+        [35.0,0.63,0.15,1.0],
+        [36.0,0.66,0.15,1.0],
+        [37.0,0.69,0.15,2.0],
+        [38.0,0.72,0.15,2.0],
+        [39.0,0.76,0.15,2.0],
+        [40.0,0.79,0.15,2.0],
+        [41.0,0.56,0.155,1.0],
+        [42.0,0.59,0.155,1.0],
+        [43.0,0.63,0.155,1.0],
+        [44.0,0.66,0.155,2.0],
+        [45.0,0.69,0.155,2.0],
+        [46.0,0.72,0.155,2.0],
+        [47.0,0.76,0.155,2.0],
+        [48.0,0.79,0.155,2.0],
+        [49.0,0.56,0.16,1.0],
+        [50.0,0.59,0.16,1.0],
+        [51.0,0.63,0.16,2.0],
+        [52.0,0.66,0.16,2.0],
+        [53.0,0.69,0.16,2.0],
+        [54.0,0.72,0.16,2.0],
         [55.0,0.76,0.16,2.0],
         [56.0,0.79,0.16,2.0],
-        [57.0,0.56,0.165,0.0],
-        [58.0,0.59,0.165,0.0],
-        [59.0,0.63,0.165,0.0],
-        [60.0,0.66,0.165,0.0],
-        [61.0,0.69,0.165,0.0],
-        [62.0,0.72,0.165,0.0],
+        [57.0,0.56,0.165,1.0],
+        [58.0,0.59,0.165,2.0],
+        [59.0,0.63,0.165,2.0],
+        [60.0,0.66,0.165,2.0],
+        [61.0,0.69,0.165,2.0],
+        [62.0,0.72,0.165,2.0],
         [63.0,0.76,0.165,2.0],
         [64.0,0.79,0.165,2.0]]
 
 env = ['m','k','k','?']
-
-categories=[1.0,2.0]
 
 ##########################################################
 # SUSTAIN Class
@@ -162,8 +159,7 @@ class SUSTAIN:
             response = False
         else:
             response = True
-        
-        # print response, probofcorrect, outputprobs, self.catunitacts, self.activations, self.distances        
+                
         return [response, probofcorrect, outputprobs, self.catunitacts, self.activations, self.distances]
     
     ###########################################################
@@ -171,7 +167,7 @@ class SUSTAIN:
     ###########################################################
     def learn(self, item, env):
         # print self.LAMBDAS
-        accuracy = 0
+        accuracy = -1
         if len(self.clusters) == 0:
             # create new cluster
             self.clusters.append(item)
@@ -179,7 +175,7 @@ class SUSTAIN:
             self.stimulate(item,env)
             winnerindex = self.activations.index(max(self.activations))
             self.adjustcluster(winnerindex, item, env)
-            maskclus = [0,0,0,array([0,0])]
+            maskclus = item
         else:
             # is most activated cluster in the correct category? (Equation #10 in Psych Review)
             winnerindex = self.activations.index(max(self.activations))
@@ -195,7 +191,6 @@ class SUSTAIN:
             # print tmpdist
             if (max(self.activations) < self.THRESHOLD) or (sum(tmpdist) != 0.0): # (Equation #11 in Psych Review)
                 # create new cluster
-                # print "NEW CLUSTER!!!"
                 self.clusters.append(item)
                 self.connections.append(array([0.0]*len(item)*len(item[0])))
                 self.stimulate(item,env)
@@ -208,7 +203,7 @@ class SUSTAIN:
         return [self.LAMBDAS, self.connections, self.clusters, int(floor(maskclus[3][1])), accuracy]
 
     ##########################################################
-    #SALMA: Unsupervised learning in generalization mode:
+    #SALMA: Unsupervised learning for generalization mode:
     ##########################################################
     def learnunsupervised(self, item, env):
         accuracy = 0
@@ -226,7 +221,6 @@ class SUSTAIN:
         # print tmpdist
         if (max(self.activations) < self.THRESHOLD) or (sum(tmpdist) != 0.0): # (Equation #11 in Psych Review)
             # create new cluster
-            # print "NEW CLUSTER!!!"
             self.clusters.append(item)
             self.connections.append(array([0.0]*len(item)*len(item[0])))
             self.stimulate(item,env)
@@ -338,8 +332,7 @@ def write_file(filename,data,delim):
     datafile.write("Model, Phase, Block, Item, Response, Accuracy" + '\n')
     for i in data:
         si = ', '.join(str(ie) for ie in i)
-        line='\n'
-        line=str(si)+delim+line
+        line=str(si)+delim+'\n'
         datafile.write(line)
     datafile.close()
 
@@ -347,10 +340,11 @@ def write_file(filename,data,delim):
 # main
 ###########################################################
 def main():
-    model = SUSTAIN(r = 0.0, beta = 3.97491, d = 6.514972, 
+    model = SUSTAIN(r = 8.0, beta = 3.97491, d = 6.514972, 
             threshold = 0, learn = 0.1150532,
             initalphas = array([1.0]*len(data[0]),float64) )
-    training(model, data) 
+    training(model, data)
+    # open(directory,"r")
         
 ###########################################################
 # let's start
