@@ -14,66 +14,66 @@ import random
 
 data = [[1.0,0.56,0.13,1.0],
         [2.0,0.59,0.13,1.0], 
-        [3.0,0.63,0.13,1.0],
-        [4.0,0.66,0.13,1.0],
-        [5.0,0.69,0.13,1.0],
-        [6.0,0.72,0.13,1.0],
-        [7.0,0.76,0.13,1.0],
-        [8.0,0.79,0.13,1.0],
+        [3.0,0.63,0.13,-1.0],
+        [4.0,0.66,0.13,-1.0],
+        [5.0,0.69,0.13,-1.0],
+        [6.0,0.72,0.13,-1.0],
+        [7.0,0.76,0.13,-1.0],
+        [8.0,0.79,0.13,-1.0],
         [9.0,0.56,0.135,1.0],
         [10.0,0.59,0.135,1.0],
-        [11.0,0.63,0.135,1.0],
-        [12.0,0.66,0.135,1.0],
-        [13.0,0.69,0.135,1.0],
-        [14.0,0.72,0.135,1.0],
-        [15.0,0.76,0.135,1.0],
-        [16.0,0.79,0.135,2.0],
-        [17.0,0.56,0.14,1.0],
-        [18.0,0.59,0.14,1.0],
-        [19.0,0.63,0.14,1.0],
-        [20.0,0.66,0.14,1.0],
-        [21.0,0.69,0.14,1.0],
-        [22.0,0.72,0.14,1.0],
-        [23.0,0.76,0.14,2.0],
-        [24.0,0.79,0.14,2.0],
-        [25.0,0.56,0.145,1.0],
-        [26.0,0.59,0.145,1.0],
-        [27.0,0.63,0.145,1.0],
-        [28.0,0.66,0.145,1.0],
-        [29.0,0.69,0.145,1.0],
-        [30.0,0.72,0.145,2.0],
-        [31.0, 0.76,0.145,2.0],
-        [32.0,0.79,0.145,2.0],
-        [33.0,0.56,0.15,1.0],
-        [34.0,0.59,0.15,1.0],
-        [35.0,0.63,0.15,1.0],
-        [36.0,0.66,0.15,1.0],
-        [37.0,0.69,0.15,2.0],
-        [38.0,0.72,0.15,2.0],
-        [39.0,0.76,0.15,2.0],
-        [40.0,0.79,0.15,2.0],
-        [41.0,0.56,0.155,1.0],
-        [42.0,0.59,0.155,1.0],
-        [43.0,0.63,0.155,1.0],
-        [44.0,0.66,0.155,2.0],
-        [45.0,0.69,0.155,2.0],
-        [46.0,0.72,0.155,2.0],
-        [47.0,0.76,0.155,2.0],
-        [48.0,0.79,0.155,2.0],
-        [49.0,0.56,0.16,1.0],
-        [50.0,0.59,0.16,1.0],
-        [51.0,0.63,0.16,2.0],
-        [52.0,0.66,0.16,2.0],
-        [53.0,0.69,0.16,2.0],
-        [54.0,0.72,0.16,2.0],
+        [11.0,0.63,0.135,-1.0],
+        [12.0,0.66,0.135,-1.0],
+        [13.0,0.69,0.135,-1.0],
+        [14.0,0.72,0.135,-1.0],
+        [15.0,0.76,0.135,-1.0],
+        [16.0,0.79,0.135,-1.0],
+        [17.0,0.56,0.14,-1.0],
+        [18.0,0.59,0.14,-1.0],
+        [19.0,0.63,0.14,-1.0],
+        [20.0,0.66,0.14,-1.0],
+        [21.0,0.69,0.14,-1.0],
+        [22.0,0.72,0.14,-1.0],
+        [23.0,0.76,0.14,-1.0],
+        [24.0,0.79,0.14,-1.0],
+        [25.0,0.56,0.145,-1.0],
+        [26.0,0.59,0.145,-1.0],
+        [27.0,0.63,0.145,-1.0],
+        [28.0,0.66,0.145,-1.0],
+        [29.0,0.69,0.145,-1.0],
+        [30.0,0.72,0.145,-1.0],
+        [31.0, 0.76,0.145,-1.0],
+        [32.0,0.79,0.145,-1.0],
+        [33.0,0.56,0.15,-1.0],
+        [34.0,0.59,0.15,-1.0],
+        [35.0,0.63,0.15,-1.0],
+        [36.0,0.66,0.15,-1.0],
+        [37.0,0.69,0.15,-1.0],
+        [38.0,0.72,0.15,-1.0],
+        [39.0,0.76,0.15,-1.0],
+        [40.0,0.79,0.15,-1.0],
+        [41.0,0.56,0.155,-1.0],
+        [42.0,0.59,0.155,-1.0],
+        [43.0,0.63,0.155,-1.0],
+        [44.0,0.66,0.155,-1.0],
+        [45.0,0.69,0.155,-1.0],
+        [46.0,0.72,0.155,-1.0],
+        [47.0,0.76,0.155,-1.0],
+        [48.0,0.79,0.155,-1.0],
+        [49.0,0.56,0.16,-1.0],
+        [50.0,0.59,0.16,-1.0],
+        [51.0,0.63,0.16,-1.0],
+        [52.0,0.66,0.16,-1.0],
+        [53.0,0.69,0.16,-1.0],
+        [54.0,0.72,0.16,-1.0],
         [55.0,0.76,0.16,2.0],
         [56.0,0.79,0.16,2.0],
-        [57.0,0.56,0.165,1.0],
-        [58.0,0.59,0.165,2.0],
-        [59.0,0.63,0.165,2.0],
-        [60.0,0.66,0.165,2.0],
-        [61.0,0.69,0.165,2.0],
-        [62.0,0.72,0.165,2.0],
+        [57.0,0.56,0.165,-1.0],
+        [58.0,0.59,0.165,-1.0],
+        [59.0,0.63,0.165,-1.0],
+        [60.0,0.66,0.165,-1.0],
+        [61.0,0.69,0.165,-1.0],
+        [62.0,0.72,0.165,-1.0],
         [63.0,0.76,0.165,2.0],
         [64.0,0.79,0.165,2.0]]
 
@@ -110,9 +110,7 @@ class SUSTAIN:
     ###########################################################
     def stimulate(self, item, env):
         itemflat = resize(item,(1,len(item)*len(item[0])))[0]
-        # print itemflat
         self.maxValue = max(itemflat[2:7])
-        # print self.maxValue
         self.minValue = min(itemflat[2:7])
         
         # this binary mask will block out queried or missing dims from the calcs
@@ -184,11 +182,9 @@ class SUSTAIN:
             maskhash = {'k':0,'?':1,'m':0}
             mask = array(map(lambda x:maskhash[x],env),float64)
             maskitem = map(lambda x,y: x*y, item, mask)
-            # print maskitem
             maskclus = map(lambda x,y: x*y, self.clusters[winnerindex], mask)
-            # print maskclus
             tmpdist = map(lambda x,y: sum(abs(x-y))/2.0,maskitem, maskclus)
-            # print tmpdist
+
             if (max(self.activations) < self.THRESHOLD) or (sum(tmpdist) != 0.0): # (Equation #11 in Psych Review)
                 # create new cluster
                 self.clusters.append(item)
@@ -206,29 +202,33 @@ class SUSTAIN:
     #SALMA: Unsupervised learning for generalization mode:
     ##########################################################
     def learnunsupervised(self, item, env):
-        accuracy = 0
+
         # is most activated cluster in the correct category? (Equation #10 in Psych Review)
         winnerindex = self.activations.index(max(self.activations))
-        
+
         # binary "masks" again force learning only on queried dimensions
         maskhash = {'k':0,'?':1,'m':0}
         mask = array(map(lambda x:maskhash[x],env),float64)
-        maskitem = map(lambda x,y: x*y, item, mask)
-        # print maskitem
         maskclus = map(lambda x,y: x*y, self.clusters[winnerindex], mask)
-        # print maskclus
-        tmpdist = map(lambda x,y: sum(abs(x-y))/2.0,maskitem, maskclus)
-        # print tmpdist
-        if (max(self.activations) < self.THRESHOLD) or (sum(tmpdist) != 0.0): # (Equation #11 in Psych Review)
+        
+        if (max(self.activations) < self.THRESHOLD): # (Equation #11 in Psych Review)
             # create new cluster
-            self.clusters.append(item)
-            self.connections.append(array([0.0]*len(item)*len(item[0])))
+            cluster = item
+            if (self.clusters[winnerindex][3][1] == 1.0):
+                cluster[3][1] = 2.0
+            else:
+                cluster[3][1] = 1.0
+            self.clusters.append(cluster)
+            self.connections.append(array([0.0]*len(cluster)*len(cluster[0])))
             self.stimulate(item,env)
             winnerindex = self.activations.index(max(self.activations))
-            accuracy = 0
+
+            self.adjustcluster(winnerindex, cluster, env)
+
+            return [self.LAMBDAS, self.connections, self.clusters, cluster[3][1], 0]
         else:
-            accuracy = 1
-        return [self.LAMBDAS, self.connections, self.clusters, int(floor(maskclus[3][1])), accuracy]       
+            # self.adjustclusterunsupervised(winnerindex, item, env)
+            return [self.LAMBDAS, self.connections, self.clusters, maskclus[3][1], 1]       
 
     ###########################################################
     # humbleteach: adjusts winning cluster (Equation #9 in Psych Review)
@@ -251,7 +251,7 @@ class SUSTAIN:
         # find connection weight errors
         deltas = map(lambda x,y: self.humbleteach(x,y), itemflat, catactsflat)
         
-        # mask to only update queried dimensions (Equation #14 in Psych Review)
+        #mask to only update queried dimensions (Equation #14 in Psych Review)
         maskhash = {'k':0,'?':1,'m':0}
         mask = array(map(lambda x:maskhash[x],env),float64)
         deltas = map(lambda x,y: x*y, resize(deltas,(len(item),len(item[0]))), mask)
@@ -265,7 +265,7 @@ class SUSTAIN:
         # update lambdas (Equation #13 in Psych Review)
         a = map(lambda x,y: x*y, self.distances[winner], self.LAMBDAS)
         b = map(lambda x:exp(-1.0*x), a)
-        #print map(lambda x,y: self.LEARN*x*(1.0-y), b, a)
+
         self.LAMBDAS += map(lambda x,y: self.LEARN*x*(1.0-y), b, a)
 
 ###########################################################
@@ -280,11 +280,6 @@ for i in data:
     for j in i:
         row.append(np.array([0, j]))
     dataitems.append(row)
-
-# s = Set([])
-# maxNDimValues = max(map(lambda x: len(s.union(Set(x))), transpose(data))) # The max no. of values of dimensions
-# valueMap = identity(maxNDimValues).astype(float64)
-# dataitems = map(lambda x: map(lambda y: valueMap[y-1], x), data)
 
 ##########################################################
   #SALMA: Training phase
@@ -340,11 +335,11 @@ def write_file(filename,data,delim):
 # main
 ###########################################################
 def main():
-    model = SUSTAIN(r = 8.0, beta = 3.97491, d = 6.514972, 
-            threshold = 0, learn = 0.1150532,
+    model = SUSTAIN(r = 5.0, beta = 3.97491, d = 6.514972, 
+            threshold = 0.95, learn = 0.1150532,
             initalphas = array([1.0]*len(data[0]),float64) )
     training(model, data)
-    # open(directory,"r")
+    open(directory,"r")
         
 ###########################################################
 # let's start
