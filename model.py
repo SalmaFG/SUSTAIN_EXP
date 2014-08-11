@@ -185,7 +185,7 @@ class SUSTAIN:
             maskclus = map(lambda x,y: x*y, self.clusters[winnerindex], mask)
             tmpdist = map(lambda x,y: sum(abs(x-y))/2.0,maskitem, maskclus)
 
-            if (max(self.activations) < self.THRESHOLD) or (sum(tmpdist) != 0.0): # (Equation #11 in Psych Review)
+            if (sum(tmpdist) != 0.0): # (Equation #11 in Psych Review)
                 # create new cluster
                 self.clusters.append(item)
                 self.connections.append(array([0.0]*len(item)*len(item[0])))
@@ -196,7 +196,7 @@ class SUSTAIN:
             else:
                 accuracy = 1
                 self.adjustcluster(winnerindex, item, env)  
-        return [self.LAMBDAS, self.connections, self.clusters, int(floor(maskclus[3][1])), accuracy]
+        return [self.LAMBDAS, self.connections, self.clusters, int(floor(maskclus[3][1])), accuracy, len(self.clusters)]
 
     ##########################################################
     #SALMA: Unsupervised learning for generalization mode:
@@ -225,10 +225,10 @@ class SUSTAIN:
 
             self.adjustcluster(winnerindex, cluster, env)
 
-            return [self.LAMBDAS, self.connections, self.clusters, cluster[3][1], 0]
+            return [self.LAMBDAS, self.connections, self.clusters, cluster[3][1], 0, len(self.clusters)]
         else:
             # self.adjustclusterunsupervised(winnerindex, item, env)
-            return [self.LAMBDAS, self.connections, self.clusters, maskclus[3][1], 1]       
+            return [self.LAMBDAS, self.connections, self.clusters, maskclus[3][1], 1, len(self.clusters)]       
 
     ###########################################################
     # humbleteach: adjusts winning cluster (Equation #9 in Psych Review)
@@ -257,6 +257,25 @@ class SUSTAIN:
         deltas = map(lambda x,y: x*y, resize(deltas,(len(item),len(item[0]))), mask)
         deltas = resize(deltas, (1,len(item)*len(item[0])))[0]
         self.connections[winner] += self.LEARN*deltas*self.coutputs[winner]
+        
+        # update cluster position (Equation #12 in Psych Review)
+        deltas = map(lambda x,y: x-y, item, self.clusters[winner])
+        self.clusters[winner] = map(lambda x,y: x+(self.LEARN*y),self.clusters[winner],deltas) 
+    
+        # update lambdas (Equation #13 in Psych Review)
+        a = map(lambda x,y: x*y, self.distances[winner], self.LAMBDAS)
+        b = map(lambda x:exp(-1.0*x), a)
+
+        self.LAMBDAS += map(lambda x,y: self.LEARN*x*(1.0-y), b, a)
+
+#####################################################
+    def adjustclusterunsupervised(self, winner, item, env):
+    
+        catactsflat = resize(self.catunitacts,(1,len(self.catunitacts)*len(self.catunitacts[0])))[0]
+        itemflat = resize(item,(1,len(item)*len(item[0])))[0]
+        
+        # find connection weight errors
+        deltas = map(lambda x,y: self.humbleteach(x,y), itemflat, catactsflat)
         
         # update cluster position (Equation #12 in Psych Review)
         deltas = map(lambda x,y: x-y, item, self.clusters[winner])
@@ -298,8 +317,8 @@ def training(model,data):
             # print j 
             trialn=int(floor(j[0][1]))
             [res,prob,outunits,outacts,act,dist] = model.stimulate(j, env)
-            [lambdas, clus, conn, response, accuracy] = model.learn(j,env)
-            trialdata=["SUSTAIN",phase,i+1,trialn,response,accuracy]
+            [lambdas, clus, conn, response, accuracy, n] = model.learn(j,env)
+            trialdata=["SUSTAIN",phase,i+1,trialn,response,accuracy,n]
             subjectdata.append(trialdata)
             write_file(directory,subjectdata,',')
     generalization(model,data)
@@ -314,8 +333,8 @@ def generalization(model,data):
     for j in dataitems:
         trialn=int(floor(j[0][1]))
         [res,prob,outunits,outacts,act,dist] = model.stimulate(j, env)
-        [lambdas, clus, conn, response, accuracy] = model.learnunsupervised(j,env)
-        trialdata=["SUSTAIN",phase,1,trialn,response,accuracy]
+        [lambdas, clus, conn, response, accuracy, n] = model.learnunsupervised(j,env)
+        trialdata=["SUSTAIN",phase,1,trialn,response,accuracy,n]
         subjectdata.append(trialdata)
         write_file(directory,subjectdata,',')
 
@@ -324,7 +343,7 @@ def generalization(model,data):
 ##########################################################
 def write_file(filename,data,delim):
     datafile=open(filename,'w')
-    datafile.write("Model, Phase, Block, Item, Response, Accuracy" + '\n')
+    datafile.write("Model, Phase, Block, Item, Response, Accuracy, Clusters number" + '\n')
     for i in data:
         si = ', '.join(str(ie) for ie in i)
         line=str(si)+delim+'\n'
