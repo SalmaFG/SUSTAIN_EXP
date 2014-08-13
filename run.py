@@ -139,8 +139,8 @@ def testing(data):
     subjectdata = []
     subjectdata2 = []
     for i in range(100):
-        model = SUSTAIN(r = 2.844642,  beta = 2.386305,  d = 12.0,  
-            threshold = 0.9,  learn = 0.09361126, 
+        model = SUSTAIN(r = 38.0,  beta = 5.386305,  d = 5.0,  
+            threshold = 0.89,  learn = 0.09361126, 
             initalphas = array([1.0]*len(data[0]), float64) )
         for k in range(4):
             random.shuffle(trainingblock)
