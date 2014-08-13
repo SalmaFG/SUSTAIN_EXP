@@ -1,3 +1,6 @@
+# This code has been obtained from Todd Gureckis and modified by  GALAL Galal to fit 
+# SUSTAIN into an experiment by Conaway & Kurtz (2013).
+
 import os, sys
 import math
 import tempfile
@@ -92,10 +95,9 @@ class SUSTAIN:
         return [response, probofcorrect, outputprobs, self.catunitacts, self.activations, self.distances]
     
     ###########################################################
-    # learn: recruits cluster and updates weights
+    # learn(modified): recruits cluster and updates weights
     ###########################################################
     def learn(self, item, env):
-        # print self.LAMBDAS
         accuracy = -1
         if len(self.clusters) == 0:
             # create new cluster
@@ -116,7 +118,7 @@ class SUSTAIN:
             maskclus = map(lambda x,y: x*y, self.clusters[winnerindex], mask)
             tmpdist = map(lambda x,y: sum(abs(x-y))/2.0,maskitem, maskclus)
 
-            if (sum(tmpdist) != 0.0): # (Equation #11 in Psych Review)
+            if (sum(tmpdist) != 0.0):
                 # create new cluster
                 self.clusters.append(item)
                 self.connections.append(array([0.0]*len(item)*len(item[0])))
@@ -127,12 +129,15 @@ class SUSTAIN:
             else:
                 accuracy = 1
                 self.adjustcluster(winnerindex, item, env)  
-        return [self.LAMBDAS, self.connections, self.clusters, maskclus[3][1], accuracy, len(self.clusters)]
+        return [self.LAMBDAS, self.connections, self.clusters, int(maskclus[3][1]), accuracy, len(self.clusters)]
 
     ##########################################################
-    #SALMA: Unsupervised learning for generalization mode:
+    # [Galal] Unsupervised learning for generalization mode,
+    # very similar to the original learn method but checks if
+    # the max activation is below a specified threshold before
+    # recruiting a new cluster.
     ##########################################################
-    def learnunsupervised(self, item, env):
+    def learn_unsupervised(self, item, env):
 
         # is most activated cluster in the correct category? (Equation #10 in Psych Review)
         winnerindex = self.activations.index(max(self.activations))
@@ -143,23 +148,30 @@ class SUSTAIN:
         maskclus = map(lambda x,y: x*y, self.clusters[winnerindex], mask)
         
         if (max(self.activations) < self.THRESHOLD): # (Equation #11 in Psych Review)
-            # create new cluster
+            # create new cluster from the item causing the exception
             cluster = item
+            # idetifying the correct category of the item
             if (self.clusters[winnerindex][3][1] == 1.0):
                 cluster[3][1] = 2.0
             else:
                 cluster[3][1] = 1.0
             self.clusters.append(cluster)
             self.connections.append(array([0.0]*len(cluster)*len(cluster[0])))
+            # restimulating the model after recruiting the new cluster
             self.stimulate(item,env)
             winnerindex = self.activations.index(max(self.activations))
 
             self.adjustcluster(winnerindex, cluster, env)
 
-            return [self.LAMBDAS, self.connections, self.clusters, cluster[3][1], len(self.clusters)]
+            return [self.LAMBDAS, self.connections, self.clusters, int(cluster[3][1]), len(self.clusters)]
         else:
-            self.adjustclusterunsupervised(winnerindex, item, env)
-            return [self.LAMBDAS, self.connections, self.clusters, int(round(maskclus[3][1])), len(self.clusters)]       
+            # if the max activation passes the threshold, cluster adjustment only takes place
+            self.adjustcluster(winnerindex, item, env)
+            if(int(round(maskclus[3][1])) == 0):
+                mc = 1
+            else:
+                mc = int(round(maskclus[3][1]))
+            return [self.LAMBDAS, self.connections, self.clusters, mc, len(self.clusters)]       
 
     ###########################################################
     # humbleteach: adjusts winning cluster (Equation #9 in Psych Review)
@@ -182,7 +194,7 @@ class SUSTAIN:
         # find connection weight errors
         deltas = map(lambda x,y: self.humbleteach(x,y), itemflat, catactsflat)
         
-        #mask to only update queried dimensions (Equation #14 in Psych Review)
+        # mask to only update queried dimensions (Equation #14 in Psych Review)
         maskhash = {'k':0,'?':1,'m':0}
         mask = array(map(lambda x:maskhash[x],env),float64)
         deltas = map(lambda x,y: x*y, resize(deltas,(len(item),len(item[0]))), mask)
@@ -199,28 +211,6 @@ class SUSTAIN:
 
         self.LAMBDAS += map(lambda x,y: self.LEARN*x*(1.0-y), b, a)
 
-    #############################################################
-    #SALMA: adjusts winning cluster in unsupervised learning mode
-    #############################################################
-    def adjustclusterunsupervised(self, winner, item, env):
-    
-        catactsflat = resize(self.catunitacts,(1,len(self.catunitacts)*len(self.catunitacts[0])))[0]
-        itemflat = resize(item,(1,len(item)*len(item[0])))[0]
-        
-        # find connection weight errors
-        deltas = map(lambda x,y: self.humbleteach(x,y), itemflat, catactsflat)
-        
-        # update cluster position (Equation #12 in Psych Review)
-        deltas = map(lambda x,y: x-y, item, self.clusters[winner])
-        self.clusters[winner] = map(lambda x,y: x+(self.LEARN*y),self.clusters[winner],deltas) 
-    
-        # update lambdas (Equation #13 in Psych Review)
-        a = map(lambda x,y: x*y, self.distances[winner], self.LAMBDAS)
-        b = map(lambda x:exp(-1.0*x), a)
-
-        self.LAMBDAS += map(lambda x,y: self.LEARN*x*(1.0-y), b, a)
-
 ###########################################################
 # END SUSTAIN Class
 ###########################################################
-
