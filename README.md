@@ -1,11 +1,5 @@
-To run the experiment:
-======================
+SUSTAIN [1] fitted in a human category learning experiment by Conaway & Kurtz [2]
+=======================================================================================
 
-1. Run the file 'run.py'
-
-2. Open files training.csv and generalization.csv
-
-3. Select the results in training.csv and overwrite training.ods sheet 1 then check sheet 2 to
-   know the number of times each item was classified in category A out of a 100.
-
-4. Do the same for generalization.csv
+[1] B.C. Love, D.L. Medin, & T.M. Gureckis. Psychological Review. SUSTAIN: A Network Model of Category Learning, 111(2):309-332, 2004.
+[2] N. Conaway & K. J. Kurtz. Models of human category learning:  Do they generalize? p. 2088{2091, 2013.
