@@ -14,24 +14,24 @@ from model import *
 
 # Stimuli data of the experiment obtained from Conaway & Kurtz
 data = [[1.0, 0.56, 1.3, 1.0], 
-        [2.0, 0.59, 1.3, 1.0],  
-        [3.0, 0.63, 1.3, -1.0], 
+        [2.0, 0.59, 1.3, -1.0],  
+        [3.0, 0.63, 1.3, 1.0], 
         [4.0, 0.66, 1.3, -1.0], 
         [5.0, 0.69, 1.3, -1.0], 
         [6.0, 0.72, 1.3, -1.0], 
         [7.0, 0.76, 1.3, -1.0], 
         [8.0, 0.79, 1.3, -1.0], 
-        [9.0, 0.56, 1.35, 1.0], 
-        [10.0, 0.59, 1.35, 1.0], 
+        [9.0, 0.56, 1.35, -1.0], 
+        [10.0, 0.59, 1.35, -1.0], 
         [11.0, 0.63, 1.35, -1.0], 
         [12.0, 0.66, 1.35, -1.0], 
         [13.0, 0.69, 1.35, -1.0], 
         [14.0, 0.72, 1.35, -1.0], 
         [15.0, 0.76, 1.35, -1.0], 
         [16.0, 0.79, 1.35, -1.0], 
-        [17.0, 0.56, 1.4, -1.0], 
+        [17.0, 0.56, 1.4, 1.0], 
         [18.0, 0.59, 1.4, -1.0], 
-        [19.0, 0.63, 1.4, -1.0], 
+        [19.0, 0.63, 1.4, 1.0], 
         [20.0, 0.66, 1.4, -1.0], 
         [21.0, 0.69, 1.4, -1.0], 
         [22.0, 0.72, 1.4, -1.0], 
@@ -58,24 +58,24 @@ data = [[1.0, 0.56, 1.3, 1.0],
         [43.0, 0.63, 1.55, -1.0], 
         [44.0, 0.66, 1.55, -1.0], 
         [45.0, 0.69, 1.55, -1.0], 
-        [46.0, 0.72, 1.55, -1.0], 
+        [46.0, 0.72, 1.55, 2.0], 
         [47.0, 0.76, 1.55, -1.0], 
-        [48.0, 0.79, 1.55, -1.0], 
+        [48.0, 0.79, 1.55, 2.0], 
         [49.0, 0.56, 1.6, -1.0], 
         [50.0, 0.59, 1.6, -1.0], 
         [51.0, 0.63, 1.6, -1.0], 
         [52.0, 0.66, 1.6, -1.0], 
         [53.0, 0.69, 1.6, -1.0], 
         [54.0, 0.72, 1.6, -1.0], 
-        [55.0, 0.76, 1.6, 2.0], 
-        [56.0, 0.79, 1.6, 2.0], 
+        [55.0, 0.76, 1.6, -1.0], 
+        [56.0, 0.79, 1.6, -1.0], 
         [57.0, 0.56, 1.65, -1.0], 
         [58.0, 0.59, 1.65, -1.0], 
         [59.0, 0.63, 1.65, -1.0], 
         [60.0, 0.66, 1.65, -1.0], 
         [61.0, 0.69, 1.65, -1.0], 
-        [62.0, 0.72, 1.65, -1.0], 
-        [63.0, 0.76, 1.65, 2.0], 
+        [62.0, 0.72, 1.65, 2.0], 
+        [63.0, 0.76, 1.65, -1.0], 
         [64.0, 0.79, 1.65, 2.0]]
 
 env = ['m', 'k', 'k', '?']
@@ -88,12 +88,13 @@ dataitems = []
 for i in data:
     row = []
     for j in i:
-        row.append(np.array([0,  j]))
+        row.append(np.array([0, j]))
     dataitems.append(row)
 
 # The 8 examples that will be used for the training phase
-trainingblock = [dataitems[0], dataitems[1], dataitems[8], dataitems[9], 
-    dataitems[54], dataitems[55], dataitems[62], dataitems[63]]
+# 1, 3, 17, 19, 46, 48, 62 and 64
+trainingblock = [dataitems[0], dataitems[2], dataitems[16], dataitems[18], 
+    dataitems[45], dataitems[47], dataitems[61], dataitems[63]]
 
 ##########################################################
   # Training phase:
@@ -117,9 +118,10 @@ def training(model, data):
 ##########################################################
   # Generalization phase:
 ##########################################################
-def generalization(data):
+def generalization(model,data):
     phase = "generalization"
     subjectdata2 = []
+    random.shuffle(dataitems)
 
     for j in dataitems:
         trialn=int(floor(j[0][1]))
@@ -139,8 +141,8 @@ def testing(data):
     subjectdata = []
     subjectdata2 = []
     for i in range(100):
-        model = SUSTAIN(r = 38.0,  beta = 5.386305,  d = 5.0,  
-            threshold = 0.89,  learn = 0.09361126, 
+        model = SUSTAIN(r = 38.0, beta = 5.386305, d = 5.0,  
+            threshold = 0.89, learn = 0.09361126, 
             initalphas = array([1.0]*len(data[0]), float64) )
         for k in range(4):
             random.shuffle(trainingblock)
@@ -180,6 +182,12 @@ def  write_file(phase, filename, data, delim):
 ###########################################################
 def main():
     testing(data)
+    # model = SUSTAIN(r = 38.0,  beta = 5.386305,  d = 5.0,  
+    #         threshold = 0.0,  learn = 0.09361126, 
+    #         initalphas = array([1.0]*len(data[0]), float64) )
+    # training(model,data)
+    # print "HEY!!!"
+    # generalization(model,data)
         
 ###########################################################
 # start
