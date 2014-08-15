@@ -21,9 +21,9 @@ data = [[1.0, 0.56, 1.3, 1.0],
         [6.0, 0.72, 1.3, -1.0], 
         [7.0, 0.76, 1.3, -1.0], 
         [8.0, 0.79, 1.3, -1.0], 
-        [9.0, 0.56, 1.35, -1.0], 
+        [9.0, 0.56, 1.35, 1.0], 
         [10.0, 0.59, 1.35, -1.0], 
-        [11.0, 0.63, 1.35, -1.0], 
+        [11.0, 0.63, 1.35, 1.0], 
         [12.0, 0.66, 1.35, -1.0], 
         [13.0, 0.69, 1.35, -1.0], 
         [14.0, 0.72, 1.35, -1.0], 
@@ -37,9 +37,9 @@ data = [[1.0, 0.56, 1.3, 1.0],
         [22.0, 0.72, 1.4, -1.0], 
         [23.0, 0.76, 1.4, -1.0], 
         [24.0, 0.79, 1.4, -1.0], 
-        [25.0, 0.56, 1.45, -1.0], 
+        [25.0, 0.56, 1.45, 1.0], 
         [26.0, 0.59, 1.45, -1.0], 
-        [27.0, 0.63, 1.45, -1.0], 
+        [27.0, 0.63, 1.45, 1.0], 
         [28.0, 0.66, 1.45, -1.0], 
         [29.0, 0.69, 1.45, -1.0], 
         [30.0, 0.72, 1.45, -1.0], 
@@ -50,9 +50,9 @@ data = [[1.0, 0.56, 1.3, 1.0],
         [35.0, 0.63, 1.5, -1.0], 
         [36.0, 0.66, 1.5, -1.0], 
         [37.0, 0.69, 1.5, -1.0], 
-        [38.0, 0.72, 1.5, -1.0], 
+        [38.0, 0.72, 1.5, 2.0], 
         [39.0, 0.76, 1.5, -1.0], 
-        [40.0, 0.79, 1.5, -1.0], 
+        [40.0, 0.79, 1.5, 2.0], 
         [41.0, 0.56, 1.55, -1.0], 
         [42.0, 0.59, 1.55, -1.0], 
         [43.0, 0.63, 1.55, -1.0], 
@@ -66,9 +66,9 @@ data = [[1.0, 0.56, 1.3, 1.0],
         [51.0, 0.63, 1.6, -1.0], 
         [52.0, 0.66, 1.6, -1.0], 
         [53.0, 0.69, 1.6, -1.0], 
-        [54.0, 0.72, 1.6, -1.0], 
+        [54.0, 0.72, 1.6, 2.0], 
         [55.0, 0.76, 1.6, -1.0], 
-        [56.0, 0.79, 1.6, -1.0], 
+        [56.0, 0.79, 1.6, 2.0], 
         [57.0, 0.56, 1.65, -1.0], 
         [58.0, 0.59, 1.65, -1.0], 
         [59.0, 0.63, 1.65, -1.0], 
@@ -79,6 +79,9 @@ data = [[1.0, 0.56, 1.3, 1.0],
         [64.0, 0.79, 1.65, 2.0]]
 
 env = ['m', 'k', 'k', '?']
+
+# Can be set to Equal salience (1) or unequal salience (2) mode
+mode = 1
 
 directory1 = os.getcwd() + '/results/training.csv'
 directory2 = os.getcwd() + '/results/generalization.csv'
@@ -91,10 +94,16 @@ for i in data:
         row.append(np.array([0, j]))
     dataitems.append(row)
 
-# The 8 examples that will be used for the training phase
-# 1, 3, 17, 19, 46, 48, 62 and 64
-trainingblock = [dataitems[0], dataitems[2], dataitems[16], dataitems[18], 
-    dataitems[45], dataitems[47], dataitems[61], dataitems[63]]
+if (mode == 1):
+    # The 8 examples that will be used for the training phase in equal salience
+    # 1, 3, 17, 19, 46, 48, 62 and 64
+    trainingblock = [dataitems[0], dataitems[2], dataitems[16], dataitems[18], 
+        dataitems[45], dataitems[47], dataitems[61], dataitems[63]]
+else:
+    # The 8 examples that will be used for the training phase in unequal salience
+    # 9, 11, 25, 27, 38, 40, 54 and 56
+    trainingblock = [dataitems[8], dataitems[10], dataitems[24], dataitems[26], 
+        dataitems[37], dataitems[39], dataitems[53], dataitems[55]]
 
 ##########################################################
   # Training phase:
@@ -118,7 +127,7 @@ def training(model, data):
 ##########################################################
   # Generalization phase:
 ##########################################################
-def generalization(model,data):
+def generalization(model, data):
     phase = "generalization"
     subjectdata2 = []
     random.shuffle(dataitems)
