@@ -11,6 +11,7 @@ from numpy import *
 from sets import *
 import random
 from model import *
+from pprint import pprint
 
 # Stimuli data of the experiment obtained from Conaway & Kurtz
 data = [[1.0, 0.56, 1.3, 1.0], 
@@ -43,7 +44,7 @@ data = [[1.0, 0.56, 1.3, 1.0],
         [28.0, 0.66, 1.45, -1.0], 
         [29.0, 0.69, 1.45, -1.0], 
         [30.0, 0.72, 1.45, -1.0], 
-        [31.0,  0.76, 1.45, -1.0], 
+        [31.0, 0.76, 1.45, -1.0], 
         [32.0, 0.79, 1.45, -1.0], 
         [33.0, 0.56, 1.5, -1.0], 
         [34.0, 0.59, 1.5, -1.0], 
@@ -81,7 +82,7 @@ data = [[1.0, 0.56, 1.3, 1.0],
 env = ['m', 'k', 'k', '?']
 
 # Can be set to Equal salience (1) or unequal salience (2) mode
-mode = 1
+mode = 2
 
 directory1 = os.getcwd() + '/results/training.csv'
 directory2 = os.getcwd() + '/results/generalization.csv'
@@ -108,7 +109,7 @@ else:
 ##########################################################
   # Training phase:
 ##########################################################
-def training(model, data):
+def training(model):
     phase = "training"
     nblocks = 4
     subjectdata = []
@@ -119,15 +120,15 @@ def training(model, data):
             trialn = int(floor(j[0][1]))
             [res, prob, outunits, outacts, act, dist] = model.stimulate(j, env)
             [lambdas, clus, conn, response, accuracy, nclus] = model.learn(j, env)
-            trialdata=["SUSTAIN", phase, i+1, trialn, response, accuracy, nclus]
+            trialdata = ["SUSTAIN", phase, i+1, trialn, response, accuracy, nclus]
             subjectdata.append(trialdata)
-        # Writing the results of the phase in training.csv
-        write_file(phase, directory1, subjectdata, ',')
+    # Writing the results of the phase in training.csv
+    write_file(phase, directory1, subjectdata, ',')
 
 ##########################################################
   # Generalization phase:
 ##########################################################
-def generalization(model, data):
+def generalization(model):
     phase = "generalization"
     subjectdata2 = []
     random.shuffle(dataitems)
@@ -136,14 +137,14 @@ def generalization(model, data):
         trialn=int(floor(j[0][1]))
         [res, prob, outunits, outacts, act, dist] = model.stimulate(j, env)
         [lambdas, clus, conn, response, nclus] = model.learn_unsupervised(j, env)
-        trialdata=["SUSTAIN", phase, 1, trialn, response, nclus]
+        trialdata = ["SUSTAIN", phase, 1, trialn, response, nclus]
         subjectdata2.append(trialdata)
     # Writing the results of the phase in generalization.csv
     write_file(phase, directory2, subjectdata2, ',')
 
 ###########################################################
   # Just a method that does both the training and 
-  # generalization phase a 100 times to collect results
+  # generalization phase 500 times to collect results
   # only for the experiment.
 ###########################################################
 def testing(data):
@@ -156,19 +157,19 @@ def testing(data):
         for k in range(4):
             random.shuffle(trainingblock)
             for j in trainingblock:
-                trialn=int(floor(j[0][1]))
+                trialn = int(floor(j[0][1]))
                 [res, prob, outunits, outacts, act, dist] = model.stimulate(j, env)
                 [lambdas, clus, conn, response, accuracy, nclus] = model.learn(j, env)
                 trialdata = ["SUSTAIN", "training", k+1, trialn, response, accuracy, nclus]
                 subjectdata.append(trialdata)
-        write_file("training", directory1, subjectdata, ',')
         random.shuffle(dataitems)
-        for k in dataitems:
-            trialn = int(floor(k[0][1]))
-            [res, prob, outunits, outacts, act, dist] = model.stimulate(k, env)
-            [lambdas,  clus,  conn,  response,  n] = model.learn_unsupervised(k, env)
+        for m in dataitems:
+            trialn = int(floor(m[0][1]))
+            [res, prob, outunits, outacts, act, dist] = model.stimulate(m, env)
+            [lambdas, clus, conn, response, n] = model.learn_unsupervised(m, env)
             trialdata = ["SUSTAIN", "generalization", i+1, trialn, response, n]
             subjectdata2.append(trialdata)
+    write_file("training", directory1, subjectdata, ',')
     write_file("generalization", directory2, subjectdata2, ',')
 
 ##########################################################
@@ -194,9 +195,8 @@ def main():
     # model = SUSTAIN(r = 38.0,  beta = 5.386305,  d = 5.0,  
     #         threshold = 0.0,  learn = 0.09361126, 
     #         initalphas = array([1.0]*len(data[0]), float64) )
-    # training(model,data)
-    # print "HEY!!!"
-    # generalization(model,data)
+    # training(model)
+    # generalization(model)
         
 ###########################################################
 # start
