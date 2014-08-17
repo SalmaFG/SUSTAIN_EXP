@@ -82,7 +82,7 @@ data = [[1.0, 0.56, 1.3, 1.0],
 env = ['m', 'k', 'k', '?']
 
 # Can be set to Equal salience (1) or unequal salience (2) mode
-mode = 1
+mode = 2
 
 directory1 = os.getcwd() + '/results/training.csv'
 directory2 = os.getcwd() + '/results/generalization.csv'
@@ -150,7 +150,7 @@ def generalization(model):
 def testing(data):
     subjectdata = []
     subjectdata2 = []
-    for i in range(100):
+    for i in range(500):
         model = SUSTAIN(r = 38.0, beta = 5.386305, d = 5.0,  
             threshold = 0.89, learn = 0.09361126, 
             initalphas = array([1.0]*len(data[0]), float64) )
