@@ -82,7 +82,7 @@ data = [[1.0, 0.56, 1.3, 1.0],
 env = ['m', 'k', 'k', '?']
 
 # Can be set to Equal salience (1) or unequal salience (2) mode
-mode = 2
+mode = 1
 
 directory1 = os.getcwd() + '/results/training.csv'
 directory2 = os.getcwd() + '/results/generalization.csv'
@@ -134,7 +134,7 @@ def generalization(model):
     random.shuffle(dataitems)
 
     for j in dataitems:
-        trialn=int(floor(j[0][1]))
+        trialn = int(floor(j[0][1]))
         [res, prob, outunits, outacts, act, dist] = model.stimulate(j, env)
         [lambdas, clus, conn, response, nclus] = model.learn_unsupervised(j, env)
         trialdata = ["SUSTAIN", phase, 1, trialn, response, nclus]
@@ -193,7 +193,7 @@ def  write_file(phase, filename, data, delim):
 def main():
     testing(data)
     # model = SUSTAIN(r = 38.0,  beta = 5.386305,  d = 5.0,  
-    #         threshold = 0.0,  learn = 0.09361126, 
+    #         threshold = 0.89,  learn = 0.09361126, 
     #         initalphas = array([1.0]*len(data[0]), float64) )
     # training(model)
     # generalization(model)
